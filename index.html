@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+      *{
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
+
+      .dex{
+        position: fixed;
+        width: 320px;
+        height: 1080px;
+        padding: 10px;
+        /* background-image: url('bg.jpg'); */
+        background-color:#f13e2d;
+        /* background-size: fitted; */
+      }
+
+      .logo{
+        display: block;
+        width: 230px;
+        margin: 5px auto 15px;
+      }
+
+      .dex p, ul{
+        width: 250px;
+        height: 20px;
+        background-color: skyblue;
+        padding: 5px 10px;
+        margin: 5px;
+        font-weight: bold;
+        border: 1px solid #353536;
+        text-transform: capitalize;
+      }
+
+      .dex ul{
+        list-style: none;
+      }
+
+      .height{
+        height: 40px !important;
+      }
+
+      .dex h3{
+        color: white;
+        font-weight: bold;
+      }
+
+      .image{
+        width: 200px;
+        height: 200px;
+        line-height: 200px;
+        background-color: white;
+        margin: 15px auto;
+        border: 3px solid #353536;
+        text-align: center;
+      }
+
+      .image img{
+        width: 180px;
+        vertical-align: middle;
+      }
+
+      .w, .h{
+        text-transform: none !important;
+      }
+
+      .poke{
+        position: absolute;
+        left: 350px;
+        padding: 2px;
+      }
+
+      .poke img{
+        margin: 2px 4px;
+        border: 3px solid #f13e2d;
+        border-radius: 10px;
+      }
+
+      .poke img:hover{
+        box-shadow: 5px 5px 5px #353536;
+        background-color: #2775bb;
+      }
+
+
+    </style>
+    <title>Pokémon</title>
+  </head>
+  <body>
+    <div class="dex">
+      <img src="logo.png" alt="Logo Pokémon" class="logo">
+      <div class="info">
+        <div class='image'></div>
+        <h3>Name</h3>
+        <p></p>
+        <h3>Number</h3>
+        <p></p>
+        <h3>Type</h3>
+        <ul></ul>
+        <h3>Weight</h3>
+        <p class="w"></p>
+        <h3>Height</h3>
+        <p class="h"></p>
+      </div>
+    </div>
+    <div class="poke"></div>
+    <script>
+        for(i=1;i<=151;i++){
+        $(".poke").append("<img id="+i+" src='http://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/"+i+".png'/>")
+      }
+      
+      $("img").click(function(){
+        $(".dex ul").addClass("height")
+        $.get("https://pokeapi.co/api/v2/pokemon/"+$(this).attr("id")+"/", function(res) {
+          console.log(res);
+          var html_str = "";
+          html_str += "<div class='image'><img src="+res.sprites.other['official-artwork'].front_default+"></div><h3>Name</h3><p>"+res.name+"</p><h3>Number</h3><p>"+res.id+"</p><h3>Type</h3><ul>"
+          for(i=0;i<res.types.length;i++){
+            html_str += "<li>"+res.types[i].type.name+"</li>";
+          }
+          html_str += "</ul><h3>Weight</h3><p class='w'>"+res.weight+" lb</p><h3>Height</h3><p class='h'>"+res.height+" ft</p></div>";
+          console.log(res.types.length)
+          if(res.types.length > 1){
+            console.log($(".dex ul").css("height"))
+          }
+          $(".info").html(html_str);
+        }, "json");
+      })
+    </script>
+  </body>
+</html>
