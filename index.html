@@ -125,10 +125,10 @@
           }
           html_str += "</ul><h3>Weight</h3><p class='w'>"+res.weight+" lb</p><h3>Height</h3><p class='h'>"+res.height+" ft</p></div>";
           console.log(res.types.length)
-          if(res.types.length > 1){
-            console.log($(".dex ul").css("height"))
-          }
           $(".info").html(html_str);
+          if(res.types.length > 1){
+            $(".dex ul").css("height","40")
+          }
         }, "json");
       })
     </script>
